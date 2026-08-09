@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electro Games</title>
+    <style>
+        :root {
+            --bg-color: #0d0e12;
+            --card-bg: #161820;
+            --text-color: #f0f0f0;
+            --accent-blue: #00d2ff;
+            --accent-glow: rgba(0, 210, 255, 0.3);
+            --text-muted: #a0a5b5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            background: linear-gradient(180deg, rgba(0,210,255,0.05) 0%, rgba(13,14,18,0) 100%);
+        }
+
+        .logo-container img {
+            max-width: 350px;
+            height: auto;
+            filter: drop-shadow(0 0 12px var(--accent-glow));
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            border-bottom: 2px solid #222634;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background: var(--accent-blue);
+            box-shadow: 0 0 8px var(--accent-blue);
+            border-radius: 2px;
+        }
+
+        /* Responsive Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(552px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        @media (max-width: 580px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            .game-wrapper iframe {
+                width: 100% !important;
+            }
+        }
+
+        /* Styling voor het geïmporteerde blokje */
+        .game-wrapper {
+            background-color: var(--card-bg);
+            border: 1px solid #222634;
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        }
+
+        .game-wrapper:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 8px 25px var(--accent-glow);
+            transform: translateY(-3px);
+        }
+
+        .game-wrapper iframe {
+            border-radius: 6px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="electro-logo.png" alt="Electro Logo">
+        </div>
+    </header>
+
+    <main class="container">
+        <h2 class="section-title">Onze Games</h2>
+        
+        <!-- Hier komen de HTML-bestanden automatisch in te staan -->
+        <div class="games-grid" id="games-container"></div>
+    </main>
+
+    <footer>
+        <p>&copy; Electro Studios</p>
+    </footer>
+
+    <script>
+        // Zet hier het pad naar je losse HTML-bestanden neer
+        const gameBestanden = [
+            'games/fnaf.html',
+            // 'games/game2.html',
+            // 'games/vriend-game.html'
+        ];
+
+        const container = document.getElementById('games-container');
+
+        // Haal de inhoud van elk HTML-bestand op en voeg het toe
+        gameBestanden.forEach(bestand => {
+            fetch(bestand)
+                .then(response => response.text())
+                .then(htmlCode => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'game-wrapper';
+                    wrapper.innerHTML = htmlCode;
+                    container.appendChild(wrapper);
+                })
+                .catch(err => console.error('Fout bij laden van ' + bestand, err));
+        });
+    </script>
+
+</body>
+</html>
